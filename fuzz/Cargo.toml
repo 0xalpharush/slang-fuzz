@@ -1,0 +1,32 @@
+[package]
+name = "slang-fuzz-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+slang_solidity = { git = "https://github.com/NomicFoundation/slang" }
+semver = "1.0.17"
+serde = "1.0.166"
+serde_json = "1.0.100"
+anyhow = "1.0.72"
+
+[dependencies.slang-fuzz]
+path = ".."
+
+# Prevent this from interfering with workspaces
+[workspace]
+members = ["."]
+
+[profile.release]
+debug = 1
+
+[[bin]]
+name = "roundtrip_parse"
+path = "fuzz_targets/roundtrip_parse.rs"
+test = false
+doc = false
